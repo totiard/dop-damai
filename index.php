@@ -92,7 +92,6 @@ if (isset($_GET['deletePenerima'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom CSS styles */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f9f9f9;
@@ -329,37 +328,6 @@ if (isset($_GET['deletePenerima'])) {
     </div>
 </div>
 
-<!-- Modal Edit Pengirim -->
-<div class="modal fade" id="modalEditPengirim" tabindex="-1" aria-labelledby="modalEditPengirimLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalEditPengirimLabel">Edit Pengirim</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="post">
-                <div class="modal-body">
-                    <input type="hidden" id="idPengirim" name="idPengirim">
-                    <div class="mb-3">
-                        <label for="editNamaPengirim" class="form-label">Nama:</label>
-                        <input type="text" class="form-control" id="editNamaPengirim" name="namaPengirim" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editNoTelpPengirim" class="form-label">No Telp:</label>
-                        <input type="text" class="form-control" id="editNoTelpPengirim" name="noTelpPengirim" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="editPengirim" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Simpan
-                    </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <!-- Modal Penerima -->
 <div class="modal fade" id="modalPenerima" tabindex="-1" aria-labelledby="modalPenerimaLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -398,59 +366,18 @@ if (isset($_GET['deletePenerima'])) {
     </div>
 </div>
 
-<!-- Modal Edit Penerima -->
-<div class="modal fade" id="modalEditPenerima" tabindex="-1" aria-labelledby="modalEditPenerimaLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalEditPenerimaLabel">Edit Penerima</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="post">
-                <div class="modal-body">
-                    <input type="hidden" id="idPenerima" name="idPenerima">
-                    <div class="mb-3">
-                        <label for="editNamaPenerima" class="form-label">Nama:</label>
-                        <input type="text" class="form-control" id="editNamaPenerima" name="namaPenerima" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editNoTelpPenerima" class="form-label">No Telp:</label>
-                        <input type="text" class="form-control" id="editNoTelpPenerima" name="noTelpPenerima" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editAlamatPenerima" class="form-label">Alamat:</label>
-                        <input type="text" class="form-control" id="editAlamatPenerima" name="alamatPenerima" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editKodePosPenerima" class="form-label">Kode Pos:</label>
-                        <input type="text" class="form-control" id="editKodePosPenerima" name="kodePosPenerima" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="editPenerima" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Simpan
-                    </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Script Bootstrap 5 dan JS -->
+<!-- Bootstrap JS and dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function showTab(tabName) {
         const tabs = document.querySelectorAll('.tab');
         const contents = document.querySelectorAll('.tab-content');
-        
-        // Remove active class from all tabs and contents
+
         tabs.forEach(tab => tab.classList.remove('active-tab'));
         contents.forEach(content => content.classList.remove('active-content'));
-        
-        // Add active class to clicked tab and corresponding content
-        document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active-tab');
+
         document.getElementById(tabName).classList.add('active-content');
+        document.querySelector('.tab[onclick="showTab(\'' + tabName + '\')"]').classList.add('active-tab');
     }
 
     function editPengirim(id, nama, noTelp) {
