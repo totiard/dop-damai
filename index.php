@@ -142,15 +142,20 @@ if (isset($_GET['deletePenerima'])) {
         }
 
         .tab-content {
-            /* width: 90vw;
-            margin-left: calc(-45vw + 50%); */
             width: 95vw;
             margin-left: calc(-47.5vw + 50%);
+            
             display: none;
             padding: 20px;
             background-color: white;
             border-radius: 5px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            width: 95vw;
+            margin-left: calc(-47.5vw + 50%);
+            border-radius: 5px;
         }
 
         .active-content {
@@ -219,18 +224,13 @@ if (isset($_GET['deletePenerima'])) {
             font-weight: 700;
             color: #2c3e50;
         }
-        
-        footer {
-            width: 95vw;
-            margin-left: calc(-47.5vw + 50%);
-            border-radius: 5px;
-        }
     </style>
 </head>
 <body>
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Data Pengirim dan Penerima</h2>
+    <h2 class="text-center mb-4" style="margin-top: -20px;">DOP DAMAI</h2>
     
     <!-- Tab navigation -->
     <div class="tabs">
@@ -241,10 +241,14 @@ if (isset($_GET['deletePenerima'])) {
     <!-- Tab Content Pengirim -->
     <div id="pengirim" class="tab-content">
         <h3>Daftar Pengirim</h3>
-        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalPengirim">
-            <i class="fas fa-plus-circle"></i> Tambah Pengirim
-        </button>
-        <table>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <input type="search" id="searchPengirim" class="form-control w-50" placeholder="Cari nama atau no telp...">
+            <button class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#modalPengirim">
+                <i class="fas fa-plus-circle"></i> Tambah Pengirim
+            </button>
+        </div>
+
+        <table id="tablePengirim">
             <tr>
                 <th>Nama</th>
                 <th>No Telp</th>
@@ -277,10 +281,14 @@ if (isset($_GET['deletePenerima'])) {
     <!-- Tab Content Penerima -->
     <div id="penerima" class="tab-content">
         <h3>Daftar Penerima</h3>
-        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalPenerima">
-            <i class="fas fa-plus-circle"></i> Tambah Penerima
-        </button>
-        <table>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <input type="search" id="searchPenerima" class="form-control w-50" placeholder="Cari nama, telp, alamat, atau kode pos...">
+            <button class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#modalPenerima">
+                <i class="fas fa-plus-circle"></i> Tambah Penerima
+            </button>
+        </div>
+
+        <table id="tablePenerima">
             <tr>
                 <th>Nama</th>
                 <th>No Telp</th>
@@ -495,6 +503,38 @@ if (isset($_GET['deletePenerima'])) {
         document.getElementById('editAlamatPenerima').value = alamat;
         document.getElementById('editKodePosPenerima').value = kodePos;
     }
+</script>
+    
+// Script untuk search box
+<script>
+    // Realtime search for Pengirim
+    document.getElementById("searchPengirim").addEventListener("input", function () {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#tablePengirim tr:not(:first-child)");
+        rows.forEach(row => {
+            let nama = row.cells[0].textContent.toLowerCase();
+            let telp = row.cells[1].textContent.toLowerCase();
+            row.style.display = (nama.includes(filter) || telp.includes(filter)) ? "" : "none";
+        });
+    });
+
+    // Realtime search for Penerima
+    document.getElementById("searchPenerima").addEventListener("input", function () {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#tablePenerima tr:not(:first-child)");
+        rows.forEach(row => {
+            let nama = row.cells[0].textContent.toLowerCase();
+            let telp = row.cells[1].textContent.toLowerCase();
+            let alamat = row.cells[2].textContent.toLowerCase();
+            let kodePos = row.cells[3].textContent.toLowerCase();
+            row.style.display = (
+                nama.includes(filter) ||
+                telp.includes(filter) ||
+                alamat.includes(filter) ||
+                kodePos.includes(filter)
+            ) ? "" : "none";
+        });
+    });
 </script>
 
 <footer class="text-center mt-5 mb-4" style="background-color: #222; color: #bbb; padding: 15px;">
