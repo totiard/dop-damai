@@ -142,6 +142,10 @@ if (isset($_GET['deletePenerima'])) {
         }
 
         .tab-content {
+            /* width: 90vw;
+            margin-left: calc(-45vw + 50%); */
+            width: 95vw;
+            margin-left: calc(-47.5vw + 50%);
             display: none;
             padding: 20px;
             background-color: white;
@@ -215,6 +219,12 @@ if (isset($_GET['deletePenerima'])) {
             font-weight: 700;
             color: #2c3e50;
         }
+        
+        footer {
+            width: 95vw;
+            margin-left: calc(-47.5vw + 50%);
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -251,12 +261,14 @@ if (isset($_GET['deletePenerima'])) {
                                 <button class='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalEditPengirim' onclick='editPengirim(" . $row['id'] . ", \"" . $row['nama'] . "\", \"" . $row['no_telp'] . "\")'>
                                     <i class='fas fa-edit'></i> Edit
                                 </button>
-                                <a href='?deletePengirim=" . $row['id'] . "' class='btn btn-danger'>
+                                <a href='?deletePengirim=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus?\")'>
                                     <i class='fas fa-trash'></i> Hapus
                                 </a>
                             </td>
                         </tr>";
                 }
+            } else {
+                echo "<tr><td colspan='3'>Tidak ada data pengirim</td></tr>";
             }
             ?>
         </table>
@@ -289,12 +301,14 @@ if (isset($_GET['deletePenerima'])) {
                                 <button class='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalEditPenerima' onclick='editPenerima(" . $row['id'] . ", \"" . $row['nama'] . "\", \"" . $row['no_telp'] . "\", \"" . $row['alamat'] . "\", \"" . $row['kode_pos'] . "\")'>
                                     <i class='fas fa-edit'></i> Edit
                                 </button>
-                                <a href='?deletePenerima=" . $row['id'] . "' class='btn btn-danger'>
+                                <a href='?deletePenerima=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus?\")'>
                                     <i class='fas fa-trash'></i> Hapus
                                 </a>
                             </td>
                         </tr>";
                 }
+            } else {
+                echo "<tr><td colspan='5'>Tidak ada data penerima</td></tr>";
             }
             ?>
         </table>
@@ -482,6 +496,13 @@ if (isset($_GET['deletePenerima'])) {
         document.getElementById('editKodePosPenerima').value = kodePos;
     }
 </script>
+
+<footer class="text-center mt-5 mb-4" style="background-color: #222; color: #bbb; padding: 15px;">
+    <p style="margin: 0;">
+        &copy; 2025 <strong><span style="color: #f39c12;">DOP DAMAI</span></strong> | by 
+        <a href="https://totiard.github.io/Profile-New" target="_blank" style="color: #3498db; text-decoration: none;" onmouseover="this.style.color='#f39c12'" onmouseout="this.style.color='#3498db'"> <i class="fab fa-github"></i> Toti Ardiansyah</a>
+    </p>
+</footer>
 
 </body>
 </html>
