@@ -42,7 +42,7 @@ Tampilan modern menggunakan **Bootstrap 5** dan interaksi real-time untuk pencar
 
 1. **Clone repository:**
     ```bash
-    git clone https://github.com/username/nama-project.git
+    git clone https://github.com/totiard/dop-damai.git
     cd nama-project
     ```
 
