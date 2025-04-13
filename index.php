@@ -39,6 +39,8 @@ if (isset($_POST['submitPenerima'])) {
     $queryInsertPenerima = "INSERT INTO penerima (nama, no_telp, alamat, kode_pos) 
                             VALUES ('$namaPenerima', '$noTelpPenerima', '$alamatPenerima', '$kodePosPenerima')";
     $conn->query($queryInsertPenerima);
+    // Set tab aktif ke penerima setelah form submit
+    echo '<script>localStorage.setItem("activeTab", "penerima");</script>';
     header("Location: ".$_SERVER['PHP_SELF']); // Refresh halaman setelah data ditambahkan
 }
 
@@ -61,6 +63,8 @@ if (isset($_POST['editPenerima'])) {
     $kodePosPenerima = $_POST['kodePosPenerima'];
     $queryUpdatePenerima = "UPDATE penerima SET nama='$namaPenerima', no_telp='$noTelpPenerima', alamat='$alamatPenerima', kode_pos='$kodePosPenerima' WHERE id=$idPenerima";
     $conn->query($queryUpdatePenerima);
+    // Set tab aktif ke penerima setelah form submit
+    echo '<script>localStorage.setItem("activeTab", "penerima");</script>';
     header("Location: ".$_SERVER['PHP_SELF']); // Refresh halaman setelah data diperbarui
 }
 
@@ -77,6 +81,8 @@ if (isset($_GET['deletePenerima'])) {
     $idPenerima = $_GET['deletePenerima'];
     $queryDeletePenerima = "DELETE FROM penerima WHERE id=$idPenerima";
     $conn->query($queryDeletePenerima);
+    // Set tab aktif ke penerima setelah form submit
+    echo '<script>localStorage.setItem("activeTab", "penerima");</script>';
     header("Location: ".$_SERVER['PHP_SELF']); // Refresh halaman setelah data dihapus
 }
 ?>
@@ -92,6 +98,7 @@ if (isset($_GET['deletePenerima'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Custom CSS styles */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f9f9f9;
@@ -217,12 +224,12 @@ if (isset($_GET['deletePenerima'])) {
     
     <!-- Tab navigation -->
     <div class="tabs">
-        <div class="tab active-tab" onclick="showTab('pengirim')">Pengirim</div>
-        <div class="tab" onclick="showTab('penerima')">Penerima</div>
+        <div class="tab" id="tabPengirim" onclick="showTab('pengirim')">Pengirim</div>
+        <div class="tab" id="tabPenerima" onclick="showTab('penerima')">Penerima</div>
     </div>
 
     <!-- Tab Content Pengirim -->
-    <div id="pengirim" class="tab-content active-content">
+    <div id="pengirim" class="tab-content">
         <h3>Daftar Pengirim</h3>
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalPengirim">
             <i class="fas fa-plus-circle"></i> Tambah Pengirim
@@ -244,14 +251,12 @@ if (isset($_GET['deletePenerima'])) {
                                 <button class='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalEditPengirim' onclick='editPengirim(" . $row['id'] . ", \"" . $row['nama'] . "\", \"" . $row['no_telp'] . "\")'>
                                     <i class='fas fa-edit'></i> Edit
                                 </button>
-                                <a href='?deletePengirim=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus?\")'>
+                                <a href='?deletePengirim=" . $row['id'] . "' class='btn btn-danger'>
                                     <i class='fas fa-trash'></i> Hapus
                                 </a>
                             </td>
-                          </tr>";
+                        </tr>";
                 }
-            } else {
-                echo "<tr><td colspan='3'>Tidak ada data pengirim</td></tr>";
             }
             ?>
         </table>
@@ -284,14 +289,12 @@ if (isset($_GET['deletePenerima'])) {
                                 <button class='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalEditPenerima' onclick='editPenerima(" . $row['id'] . ", \"" . $row['nama'] . "\", \"" . $row['no_telp'] . "\", \"" . $row['alamat'] . "\", \"" . $row['kode_pos'] . "\")'>
                                     <i class='fas fa-edit'></i> Edit
                                 </button>
-                                <a href='?deletePenerima=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus?\")'>
+                                <a href='?deletePenerima=" . $row['id'] . "' class='btn btn-danger'>
                                     <i class='fas fa-trash'></i> Hapus
                                 </a>
                             </td>
-                          </tr>";
+                        </tr>";
                 }
-            } else {
-                echo "<tr><td colspan='5'>Tidak ada data penerima</td></tr>";
             }
             ?>
         </table>
@@ -319,6 +322,37 @@ if (isset($_GET['deletePenerima'])) {
                 </div>
                 <div class="modal-footer">
                     <button type="submit" name="submitPengirim" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Pengirim -->
+<div class="modal fade" id="modalEditPengirim" tabindex="-1" aria-labelledby="modalEditPengirimLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditPengirimLabel">Edit Pengirim</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                <input type="hidden" id="idPengirim" name="idPengirim">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="editNamaPengirim" class="form-label">Nama:</label>
+                        <input type="text" class="form-control" id="editNamaPengirim" name="namaPengirim" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editNoTelpPengirim" class="form-label">No Telp:</label>
+                        <input type="text" class="form-control" id="editNoTelpPengirim" name="noTelpPengirim" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" name="editPengirim" class="btn btn-primary">
                         <i class="fas fa-save"></i> Simpan
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -366,18 +400,72 @@ if (isset($_GET['deletePenerima'])) {
     </div>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
+<!-- Modal Edit Penerima -->
+<div class="modal fade" id="modalEditPenerima" tabindex="-1" aria-labelledby="modalEditPenerimaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditPenerimaLabel">Edit Penerima</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                <input type="hidden" id="idPenerima" name="idPenerima">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="editNamaPenerima" class="form-label">Nama:</label>
+                        <input type="text" class="form-control" id="editNamaPenerima" name="namaPenerima" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editNoTelpPenerima" class="form-label">No Telp:</label>
+                        <input type="text" class="form-control" id="editNoTelpPenerima" name="noTelpPenerima" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAlamatPenerima" class="form-label">Alamat:</label>
+                        <input type="text" class="form-control" id="editAlamatPenerima" name="alamatPenerima" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editKodePosPenerima" class="form-label">Kode Pos:</label>
+                        <input type="text" class="form-control" id="editKodePosPenerima" name="kodePosPenerima" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" name="editPenerima" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Script Bootstrap 5 dan JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Menyimpan tab yang aktif menggunakan localStorage
+    window.onload = function() {
+        var activeTab = localStorage.getItem("activeTab") || "pengirim"; // Default tab adalah pengirim
+        showTab(activeTab);
+    }
+
     function showTab(tabName) {
         const tabs = document.querySelectorAll('.tab');
         const contents = document.querySelectorAll('.tab-content');
 
+        // Remove active class from all tabs and contents
         tabs.forEach(tab => tab.classList.remove('active-tab'));
         contents.forEach(content => content.classList.remove('active-content'));
 
+        // Add active class to clicked tab and corresponding content
+        document.querySelector(`#tab${capitalizeFirstLetter(tabName)}`).classList.add('active-tab');
         document.getElementById(tabName).classList.add('active-content');
-        document.querySelector('.tab[onclick="showTab(\'' + tabName + '\')"]').classList.add('active-tab');
+
+        // Simpan tab yang aktif di localStorage
+        localStorage.setItem("activeTab", tabName);
+    }
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     function editPengirim(id, nama, noTelp) {
@@ -397,7 +485,6 @@ if (isset($_GET['deletePenerima'])) {
 
 </body>
 </html>
-
 
 <?php
 // Menutup koneksi
