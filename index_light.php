@@ -101,7 +101,7 @@ if (isset($_GET['deletePenerima'])) {
         /* Custom CSS styles */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f9f9f9;
+            background-color: #e8f5e9;
             color: #333;
         }
 
@@ -142,20 +142,15 @@ if (isset($_GET['deletePenerima'])) {
         }
 
         .tab-content {
+            /* width: 90vw;
+            margin-left: calc(-45vw + 50%); */
             width: 95vw;
             margin-left: calc(-47.5vw + 50%);
-            
             display: none;
             padding: 20px;
             background-color: white;
             border-radius: 5px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        footer {
-            width: 95vw;
-            margin-left: calc(-47.5vw + 50%);
-            border-radius: 5px;
         }
 
         .active-content {
@@ -206,6 +201,11 @@ if (isset($_GET['deletePenerima'])) {
             transform: scale(1.05);
         }
 
+	.btn-dark:hover {
+            background-color: #333;
+            color: #fff;
+    	}
+
         .modal-content {
             border-radius: 10px;
             padding: 20px;
@@ -224,11 +224,29 @@ if (isset($_GET['deletePenerima'])) {
             font-weight: 700;
             color: #2c3e50;
         }
+
+	textarea {
+    	    resize: vertical; /* Supaya bisa di-drag atas bawah */
+	}
+        
+        footer {
+            width: 95vw;
+            margin-left: calc(-47.5vw + 50%);
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container mt-5">
+
+    <!-- Tombol tema -->
+    <div class="d-flex justify-content-end mb-3">
+    <a href="/DOP-DAMAI/index_dark.php" class="btn btn-dark">
+        <i class="fas fa-moon"></i> Tema Gelap
+    </a>
+    </div>
+
     <h2 class="text-center mb-4">Data Pengirim dan Penerima</h2>
     <h2 class="text-center mb-4" style="margin-top: -20px;">DOP DAMAI</h2>
     
@@ -247,7 +265,6 @@ if (isset($_GET['deletePenerima'])) {
                 <i class="fas fa-plus-circle"></i> Tambah Pengirim
             </button>
         </div>
-
         <table id="tablePengirim">
             <tr>
                 <th>Nama</th>
@@ -287,7 +304,6 @@ if (isset($_GET['deletePenerima'])) {
                 <i class="fas fa-plus-circle"></i> Tambah Penerima
             </button>
         </div>
-
         <table id="tablePenerima">
             <tr>
                 <th>Nama</th>
@@ -306,7 +322,7 @@ if (isset($_GET['deletePenerima'])) {
                             <td>" . $row['alamat'] . "</td>
                             <td>" . $row['kode_pos'] . "</td>
                             <td>
-                                <button class='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalEditPenerima' onclick='editPenerima(" . $row['id'] . ", \"" . $row['nama'] . "\", \"" . $row['no_telp'] . "\", \"" . $row['alamat'] . "\", \"" . $row['kode_pos'] . "\")'>
+                                <button class='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalEditPenerima' onclick='editPenerima(" . $row['id'] . ", " . json_encode($row['nama']) . ", " . json_encode($row['no_telp']) . ", " . json_encode($row['alamat']) . ", " . json_encode($row['kode_pos']) . ")'>
                                     <i class='fas fa-edit'></i> Edit
                                 </button>
                                 <a href='?deletePenerima=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus?\")'>
@@ -404,7 +420,7 @@ if (isset($_GET['deletePenerima'])) {
                     </div>
                     <div class="mb-3">
                         <label for="alamatPenerima" class="form-label">Alamat:</label>
-                        <input type="text" class="form-control" id="alamatPenerima" name="alamatPenerima" required>
+                        <textarea class="form-control" id="alamatPenerima" name="alamatPenerima" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="kodePosPenerima" class="form-label">Kode Pos:</label>
@@ -443,7 +459,7 @@ if (isset($_GET['deletePenerima'])) {
                     </div>
                     <div class="mb-3">
                         <label for="editAlamatPenerima" class="form-label">Alamat:</label>
-                        <input type="text" class="form-control" id="editAlamatPenerima" name="alamatPenerima" required>
+                        <textarea class="form-control" id="editAlamatPenerima" name="alamatPenerima" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="editKodePosPenerima" class="form-label">Kode Pos:</label>
@@ -504,8 +520,7 @@ if (isset($_GET['deletePenerima'])) {
         document.getElementById('editKodePosPenerima').value = kodePos;
     }
 </script>
-    
-// Script untuk search box
+
 <script>
     // Realtime search for Pengirim
     document.getElementById("searchPengirim").addEventListener("input", function () {
