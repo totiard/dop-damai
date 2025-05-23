@@ -1,8 +1,8 @@
-# dop-damai
+# dop-damai  
 # 📦 Data Pengirim & Penerima - DOP DAMAI
 
 Aplikasi web sederhana untuk mengelola data pengirim dan penerima menggunakan **PHP + MySQL**.  
-Tampilan modern menggunakan **Bootstrap 5** dan interaksi real-time untuk pencarian data.
+Tampilan modern dengan **Bootstrap 5**, pencarian real-time, serta dukungan **mode terang & gelap**.
 
 ---
 
@@ -12,18 +12,20 @@ Tampilan modern menggunakan **Bootstrap 5** dan interaksi real-time untuk pencar
 - ✅ Tambah, edit, hapus data **Penerima** (nama, no telp, alamat, kode pos)
 - 🔍 **Realtime search** untuk memfilter data secara langsung saat mengetik
 - 🧠 Tab navigasi otomatis menyimpan posisi aktif (Pengirim/Penerima)
-- 💻 Responsive UI dengan Bootstrap
+- 💻 Responsive UI dengan Bootstrap 5
+- 🌓 **Dukungan mode terang & gelap**, masing-masing untuk tab Pengirim & Penerima
 - 💡 Clean UI & UX friendly
 
 ---
 
 ## 🖼 Tampilan
 
-| Pengirim Tab | Penerima Tab |
-|--------------|--------------|
-| ![Pengirim View](screenshots/pengirim.png) | ![Penerima View](screenshots/penerima.png) |
+| Mode | Pengirim | Penerima |
+|------|----------|----------|
+| **Terang** | ![Pengirim Terang](screenshots/pengirim-terang.png) | ![Penerima Terang](screenshots/penerima-terang.png) |
+| **Gelap** | ![Pengirim Gelap](screenshots/pengirim-gelap.png) | ![Penerima Gelap](screenshots/penerima-gelap.png) |
 
-> 📸 Tambahkan folder `/screenshots` dan upload hasil tampilan kamu di dalamnya biar README lebih hidup!
+> 📸 Pastikan folder `/screenshots` berisi keempat tampilan agar dokumentasi lebih menarik dan informatif.
 
 ---
 
@@ -34,7 +36,8 @@ Tampilan modern menggunakan **Bootstrap 5** dan interaksi real-time untuk pencar
 - Bootstrap 5
 - Font Awesome
 - Google Fonts (Poppins & Lora)
-- Vanilla JS
+- Vanilla JavaScript
+- CSS Custom Properties (untuk tema terang & gelap)
 
 ---
 
@@ -43,16 +46,20 @@ Tampilan modern menggunakan **Bootstrap 5** dan interaksi real-time untuk pencar
 1. **Clone repository:**
     ```bash
     git clone https://github.com/totiard/dop-damai.git
-    cd nama-project
+    cd dop-damai
     ```
 
 2. **Import database:**
-    - Buat database `dop_damai`
-    - Import file SQL (buat dan sesuaikan sendiri jika belum ada)
+    - Buat database baru dengan nama `dop_damai`
+    - Import file SQL yang sudah disediakan:
+      ```bash
+      mysql -u root -p dop_damai < dop_damai.sql
+      ```
+
+    📁 File `dop_damai.sql` tersedia di folder utama proyek.
 
 3. **Konfigurasi koneksi database:**
-    - Buka file `index.php`
-    - Sesuaikan variabel di bagian atas:
+    - Buka file `index.php` dan sesuaikan bagian berikut:
       ```php
       $host = 'localhost';
       $user = 'root';
@@ -60,16 +67,19 @@ Tampilan modern menggunakan **Bootstrap 5** dan interaksi real-time untuk pencar
       $dbname = 'dop_damai';
       ```
 
-4. **Jalankan project di localhost:**
-    - Jalankan server lokal seperti XAMPP, Laragon, atau MAMP
-    - Akses di browser: `http://localhost/nama-folder-project`
+4. **Jalankan proyek di localhost:**
+    - Jalankan XAMPP, Laragon, atau MAMP
+    - Akses melalui browser:
+      ```
+      http://localhost/dop-damai
+      ```
 
 ---
 
 ## 🙌 Kontribusi
 
-Proyek ini masih dikembangkan secara pribadi, tapi kontribusi tetap terbuka!  
-Silakan fork, pull request, atau buat issue untuk fitur baru / perbaikan.
+Kontribusi sangat terbuka untuk siapa saja!  
+Silakan fork repo ini, buat pull request, atau buka issue untuk fitur baru, perbaikan bug, atau saran peningkatan.
 
 ---
 
@@ -82,4 +92,4 @@ Silakan fork, pull request, atau buat issue untuk fitur baru / perbaikan.
 
 ## 📄 Lisensi
 
-MIT License - Silakan gunakan, modifikasi, dan kembangkan sesuai kebutuhanmu 🚀
+MIT License – Silakan gunakan, modifikasi, dan distribusikan proyek ini dengan bebas 🚀
